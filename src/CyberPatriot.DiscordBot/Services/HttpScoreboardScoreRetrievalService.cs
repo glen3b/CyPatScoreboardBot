@@ -186,12 +186,14 @@ namespace CyberPatriot.DiscordBot.Services
                 // hacky, cause they don't return a proper error page for nonexistant teams
                 if (!detailsPage.Contains(@"<div id='chart_div' class='chart'>"))
                 {
-                    throw new ArgumentException("The given team does not exist.");
+                    return null;
+                    //throw new ArgumentException("The given team does not exist.");
                 }
             }
             catch (HttpRequestException)
             {
-                throw new InvalidOperationException("Error getting team details page, perhaps the scoreboard is offline?");
+                return null;
+                //throw new InvalidOperationException("Error getting team details page, perhaps the scoreboard is offline?");
             }
 
             ScoreboardDetails retVal = new ScoreboardDetails();

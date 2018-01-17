@@ -128,12 +128,7 @@ namespace CyberPatriot.DiscordBot.Services
             deserializedJsonLock.EnterReadLock();
             try
             {
-                if (!teamDetails.TryGetValue(team, out ScoreboardDetails retVal) || retVal == null)
-                {
-                    throw new ArgumentException("The given team does not exist.");
-                }
-
-                return Task.FromResult(retVal);
+                return Task.FromResult(teamDetails.TryGetValue(team, out ScoreboardDetails retVal) ? retVal : null);
             }
             finally
             {
