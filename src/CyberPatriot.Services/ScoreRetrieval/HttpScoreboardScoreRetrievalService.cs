@@ -202,9 +202,13 @@ namespace CyberPatriot.Services.ScoreRetrieval
             }
             summary.ImageCount = int.Parse(dataEntries[5]);
             summary.PlayTime = Utilities.ParseHourMinuteSecondTimespan(dataEntries[6]);
-            summary.TotalScore = double.Parse(dataEntries.Last());
+
+            summary.TotalScore = dataEntries.Last() != "" ? double.Parse(dataEntries.Last()) : 0;
+
             summary.Warnings |= dataEntries[7].Contains("T") ? ScoreWarnings.TimeOver : 0;
             summary.Warnings |= dataEntries[7].Contains("M") ? ScoreWarnings.MultiImage : 0;
+            summary.Warnings |= dataEntries[7].Contains("W") ? ScoreWarnings.Withdrawn : 0;
+
 
             return summary;
         }
@@ -238,9 +242,10 @@ namespace CyberPatriot.Services.ScoreRetrieval
             details.ScoreTime = Utilities.ParseHourMinuteSecondTimespan(dataEntries[6]);
             // warnings and total score
             string warnStr = dataEntries[7];
-            summary.Warnings |= warnStr.Contains("T") ? ScoreWarnings.TimeOver : 0;
-            summary.Warnings |= warnStr.Contains("M") ? ScoreWarnings.MultiImage : 0;
-            summary.TotalScore = double.Parse(dataEntries.Last().Trim());
+            summary.Warnings |= dataEntries[7].Contains("T") ? ScoreWarnings.TimeOver : 0;
+            summary.Warnings |= dataEntries[7].Contains("M") ? ScoreWarnings.MultiImage : 0;
+            summary.Warnings |= dataEntries[7].Contains("W") ? ScoreWarnings.Withdrawn : 0;
+            summary.TotalScore = dataEntries.Last().Trim() != "" ? double.Parse(dataEntries.Last().Trim()) : 0;
         }
 
         protected virtual IEnumerable<ScoreboardSummaryEntry> ProcessSummaries(HtmlDocument doc, out DateTimeOffset processTimestamp)
@@ -306,12 +311,15 @@ namespace CyberPatriot.Services.ScoreRetrieval
                 image.PointsPossible = 100;
                 image.ImageName = dataEntries[0];
                 image.PlayTime = Utilities.ParseHourMinuteSecondTimespan(dataEntries[1]);
-                image.VulnerabilitiesFound = int.Parse(dataEntries[2]);
-                image.VulnerabilitiesRemaining = int.Parse(dataEntries[3]);
-                image.Penalties = int.Parse(dataEntries[4]);
-                image.Score = double.Parse(dataEntries[5]);
+                
+                image.VulnerabilitiesFound = dataEntries[2] != "" ? int.Parse(dataEntries[2]) : 0;
+                image.VulnerabilitiesRemaining = dataEntries[3] != "" ? int.Parse(dataEntries[3]) : 0;
+                image.Penalties = dataEntries[4] != "" ? int.Parse(dataEntries[4]): 0;
+                image.Score = dataEntries[5] != "" ? double.Parse(dataEntries[5]) : 0;
                 image.Warnings |= dataEntries[6].Contains("T") ? ScoreWarnings.TimeOver : 0;
                 image.Warnings |= dataEntries[6].Contains("M") ? ScoreWarnings.MultiImage : 0;
+                image.Warnings |= dataEntries[6].Contains("W") ? ScoreWarnings.Withdrawn : 0;
+ 
                 retVal.Images.Add(image);
             }
 
