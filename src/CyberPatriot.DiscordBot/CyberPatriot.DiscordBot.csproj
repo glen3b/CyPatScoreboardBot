@@ -13,7 +13,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Discord.Net" Version="2.3.0-dev-20201115.2" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="Discord.Net.WebSocket" Version="2.3.0-dev-20201115.2" />
     <PackageReference Include="Discord.Net.Commands" Version="2.3.0-dev-20201115.2" />
     <PackageReference Include="LiteDB" Version="4.1.4" />
